@@ -12,7 +12,8 @@ function loadImage(url) {
     };
 
     img.onerror = function(e) {
-      reject(e);
+      // reject(e);
+      resolve(e)
     };
 
     img.src = url;
@@ -55,7 +56,7 @@ var images = [
   "./assets/017-happy-1.png",
   "./assets/018-cute.png",
   "./assets/019-crying.png",
-  "./assets/020-crazy.png",
+  "./assets/020-crazy1.png",
   "./assets/021-cool.png",
   "./assets/022-bored.png",
   "./assets/023-blush.png",
@@ -81,10 +82,15 @@ images.forEach(function(img){
 })
 
 Promise.all(loadedImages).then(function(images){
-  images.forEach(function(img) {
-    img.classList = "smily";
-    document.querySelector("#imageWrapper").appendChild(img);
-  })
+
+  for (var i = 0; i < images.length; i++) {
+    if(images[i].type == "error"){
+      images[i] = document.createElement("img");
+      images[i].src = "./img/error_img.png";
+    }
+      images[i].classList = "smily";
+      document.querySelector("#imageWrapper").appendChild(images[i]);
+  }
   animateSmily(images);
 });
 
@@ -120,7 +126,6 @@ function animateSmily(images){
         animateSmily(images)
       }
       else{
-        console.log("klaar");
         TweenLite.to(document.querySelector("#finishedMessage"), 0.2, {autoAlpha:1});
       }
     })
