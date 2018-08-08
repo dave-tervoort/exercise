@@ -1,4 +1,4 @@
-/**
+/** 
  * loadImage load a image with a promise structure
  * @param url
  * @return {Promise<any>}
@@ -6,6 +6,7 @@
 function loadImage(url) {
   return new Promise(function(resolve, reject) {
     var img = document.createElement("img");
+    
     img.onload = function() {
       resolve(this);
     };
@@ -28,7 +29,9 @@ function loadImage(url) {
  */
 function animate(element, duration, x, y) {
   return new Promise(function(resolve) {
-    TweenLite.to(element, duration, { x: x, y: y, onComplete: resolve });
+    TweenLite.to(element, duration, { x: x, y: y, onComplete: function(){
+      resolve(element);
+    }});
   });
 }
 
@@ -61,3 +64,106 @@ var images = [
 ];
 
 /// WRITE CODE UNDER HERE
+
+// var test = 0;
+
+// for (var i = 0; i < images.length; i++) {
+  
+//   loadImage(images[i])
+//     .then(function(evt){
+      
+//       evt.classList = "smily";
+//       document.querySelector("#imageWrapper").appendChild(evt);
+//     })
+//     .catch(function(err){
+
+//       document.querySelector("#errorWrapper").innerHTML += err.path[0].src + "<BR>";
+
+//     })
+//     .then(function(e){
+//       test++;
+//       if(test == images.length){
+//         console.log("done");
+//         allAssetsLoaded();
+//       }
+//     })
+// }
+
+
+// function allAssetsLoaded(){
+//   for (var i = 0; i < images.length; i++) {
+  
+//   animate(document.querySelectorAll(".smily")[i], 1, 100, 0)
+//   .then(function(e){
+//     return animate(document.querySelectorAll(".smily")[i], 1, 100, 100)
+//   })
+//   .then(function(e){
+//     return animate(document.querySelectorAll(".smily")[i], 1, 0, 100)
+//   })
+//   .then(function(e){
+//     return animate(document.querySelectorAll(".smily")[i], 1, 0, 0)
+//   })
+    
+//   }
+// }
+
+var promisesArray = [];
+var index = 0;
+
+// for (var i = 0; i < 3; i++) {
+//   loadImage(images[i])
+//   .then(function(elem){
+//     elem.classList = "smily";
+//     document.querySelector("#imageWrapper").appendChild(elem);
+//     loadedImages.push(elem);
+//     animate(elem, 1, 100, 0);
+//   })
+// }
+// console.log("loadedImages", promisesArray);
+
+
+
+images.forEach(function(src){
+  promisesArray.push(loadImage(src))
+});
+
+Promise.all(promisesArray)
+  .then(function(images){
+
+    images.forEach(function(image){
+      animateImage(image).then(function(img){
+        console.log(img, 'animated')
+      })
+    })
+  
+
+  });
+
+function animateImage(image){
+  image.classList = "smily";
+  document.querySelector("#imageWrapper").appendChild(image);
+
+  return animate(image, 1, 100, 0)
+    .then(function(arg){
+      return animate(arg, 1, 100, 100)
+    })
+    .then(function(){
+      return animate(image, 1, 0, 100)
+    })
+    .then(function(){
+      return animate(image, 1, 0, 0)
+    })
+}
+
+
+
+// images.forEach(function(src){
+//   loadImage(src).then(function(evt){
+//     evt.classList = "smily";
+//     document.querySelector("#imageWrapper").appendChild(evt);
+//   })
+//   .catch(function(err){
+//     document.querySelector("#errorWrapper").innerHTML += err.path[0].src + "<BR>";
+//   })
+// })
+
