@@ -4,9 +4,14 @@ import WaterParticle from "./lib/WaterParticle.js";
 import Vector3 from "./lib/Vector3";
 
 const pe = new ParticleEmitter(document.querySelector("canvas"), {
-	maxParticles: 200,
-	spawnPerUpdate: 1
+	maxParticles: 500,
+	spawnPerUpdate: 2
 });
+
+document.querySelector("#wrapper").addEventListener("mousemove", (e) => {
+    let mouseX = e.clientX;
+    console.log(mouseX)
+})
 
 pe.addParticleClass(WaterParticle, function(width, height) {
 

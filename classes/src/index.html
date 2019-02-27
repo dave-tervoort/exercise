@@ -58,7 +58,27 @@
         background: #006aa9;
         border-radius: 50% 50%;
         content: "";
+    }
 
+    #windWrapper{
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border: 2px solid black;
+        border-radius: 50%;
+        background: #d7d7d7;
+        left: 20px;
+        top: 20px;
+    }
+
+    .arrow{
+        position: absolute;
+        width: 3px;
+        height: 50%;
+        background: #000;
+        left: 50px;
+        top: 0px;
+        transform-origin: 50% 100%;
     }
 
 </style>
@@ -67,6 +87,10 @@
         <div id="fountainBottom"></div>
         <div id="fountainTop"></div>
         <canvas id="canvas" width="1000" height="500"></canvas>
+
+        <div id="windWrapper">
+            <div class="arrow"></div>
+        </div>
     </div>
 </body>
 </html>

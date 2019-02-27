@@ -9,8 +9,8 @@ export default  class WaterParticle extends Particle{
         this.vector = vector;
         this.gravityX = 0.07;
         this.gravityY = 0.999;
-        this.wind = 0.005;
-        this.radius = this.getRandomNumber(4,7);
+        this.wind = 0.025;
+        this.radius = this.getRandomNumber(3,5);
         this.dy = -this.getRandomNumber(4,7);
         this.dx = -this.getRandomNumber(-1,1);
         this.colorArray = ["#00a0ff", "#0093eb", "#008adc"]
@@ -40,6 +40,8 @@ export default  class WaterParticle extends Particle{
 
         this.dy+=this.gravityX;
         this.dx*=this.gravityY;
+
+        this.dx+=this.wind;
 
         this.x += this.dx;
         this.y += this.dy;
